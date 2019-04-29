@@ -10,7 +10,11 @@ public:
 
     virtual void next() = 0;
 
-    virtual unsigned getCurentResultValue() = 0;
+    virtual char getRegisterSize() = 0;
+
+    virtual char getOutputSize() = 0;
+
+    virtual unsigned getOutputValue() = 0;
 
     virtual unsigned getMaxSequence() = 0;
 };

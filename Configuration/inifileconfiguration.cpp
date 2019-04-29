@@ -1,5 +1,8 @@
 #include "inifileconfiguration.h"
 #include <QList>
+#include <cmath>
+
+#include <QDebug>
 
 IniFileConfiguration::IniFileConfiguration(const QString &fileName)
     :m_settings(fileName, QSettings::IniFormat)
@@ -70,4 +73,37 @@ void IniFileConfiguration::getMaskValue(const QString& value_name, uint& out)
     {
         utils::setBit(out, static_cast<char>((length - (*it).toUInt()) ));
     }
+}
+
+double IniFileConfiguration::getSourceSignalPeriode()
+{
+    return m_settings.value("T").toDouble();
+}
+
+double IniFileConfiguration::getSourceSignalSlope()
+{
+    return m_settings.value("slope").toDouble();
+}
+
+double IniFileConfiguration::getSourceSignalYIntercept()
+{
+    return m_settings.value("y_intercept").toDouble();
+}
+
+double IniFileConfiguration::getSamplingSignalRatio()
+{
+    auto ratioCoefs = m_settings.value("ratio").toList();
+
+    QList<QVariant>::iterator it = ratioCoefs.begin();
+
+    double ratio = (*it).toDouble();
+
+    double n = 1.0;
+
+    for (it = ratioCoefs.begin()+1; it < ratioCoefs.end(); ++it)
+    {
+        ratio +=  ( 1.0/(std::pow(2.0, n++)) ) * (*it).toDouble();
+    }
+
+    return ratio;
 }

@@ -43,4 +43,9 @@ namespace utils
         return ~(left^right);
     }
 
+    unsigned getMaskedBits(unsigned number, unsigned mask)
+    {
+
+    }
+
 }

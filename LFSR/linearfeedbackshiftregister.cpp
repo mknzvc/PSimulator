@@ -18,7 +18,7 @@ LinearFeedbackShiftRegister::LinearFeedbackShiftRegister(char size,
 
 void LinearFeedbackShiftRegister::next()
 {
-    unsigned pBit = calculateParityBit(m_feedbackFuncion, m_value, m_feedbackMask, m_size, m_neutralFeedbackElement);   
+    unsigned pBit = calculateParityBit();
 
     //shift value
     m_value = m_value >> 1;
@@ -28,9 +28,24 @@ void LinearFeedbackShiftRegister::next()
     else { utils::unsetBit(m_value, m_size-1); }
 }
 
-unsigned LinearFeedbackShiftRegister::getCurentResultValue()
+unsigned LinearFeedbackShiftRegister::getOutputValue()
 {
-    return m_value;
+    unsigned curentValue = 0;
+    char resultPos = 0;
+
+    for (char pos = 0; pos < m_size; ++pos)
+    {
+        if(utils::getNthBit(m_resultMask, pos) == 1u)
+        {
+            unsigned bit = utils::getNthBit(m_value, pos);
+            if(bit)
+            {
+                utils::setBit(curentValue, resultPos++);
+            }
+        }
+    }
+
+    return curentValue;
 }
 
 unsigned LinearFeedbackShiftRegister::getMaxSequence()
@@ -38,16 +53,21 @@ unsigned LinearFeedbackShiftRegister::getMaxSequence()
     return m_value;
 }
 
-unsigned LinearFeedbackShiftRegister::calculateParityBit(FeedbackFunction func, const unsigned regValue, unsigned feedbackMask, char size, unsigned neutralElement)
+char LinearFeedbackShiftRegister::getOutputSize()
 {
-    unsigned curentValue = neutralElement;    
+    utils::getOnesCount(m_resultMask);
+}
 
-    for (char pos = 0; pos < size; ++pos)
+unsigned LinearFeedbackShiftRegister::calculateParityBit()
+{
+    unsigned curentValue = m_neutralFeedbackElement;
+
+    for (char pos = 0; pos < m_size; ++pos)
     {        
-        if(utils::getNthBit(feedbackMask, pos) == 1u)
+        if(utils::getNthBit(m_feedbackMask, pos) == 1u)
         {
-            unsigned curentFeedbackBit = utils::getNthBit(regValue, pos);
-            curentValue = func(curentValue, curentFeedbackBit);
+            unsigned curentFeedbackBit = utils::getNthBit(m_value, pos);
+            curentValue = m_feedbackFuncion(curentValue, curentFeedbackBit);
         }
     }
 

@@ -8,18 +8,27 @@ ILinearFeedbackShiftRegister::~ILinearFeedbackShiftRegister()
 {
 }
 
-unsigned int ILinearFeedbackShiftRegister::getMaxSequence()
-{
-    return 0;
-}
+//char ILinearFeedbackShiftRegister::getOutputSize()
+//{
+//    return 0;
+//}
 
-unsigned int ILinearFeedbackShiftRegister::getCurentResultValue()
-{
-    return 0;
-}
+//unsigned ILinearFeedbackShiftRegister::getMaxSequence()
+//{
+//    return 0;
+//}
 
-void ILinearFeedbackShiftRegister::next()
-{
-}
+//unsigned ILinearFeedbackShiftRegister::getOutputValue()
+//{
+//    return 0;
+//}
+
+//char ILinearFeedbackShiftRegister::getRegisterSize()
+//{
+//}
+
+//void ILinearFeedbackShiftRegister::next()
+//{
+//}
 
 

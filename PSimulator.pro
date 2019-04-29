@@ -20,7 +20,15 @@ SOURCES += \
     Configuration/inifileconfiguration.cpp \
     LFSR/ilinearfeedbackshiftregister.cpp \
     LFSR/linearfeedbackshiftregister.cpp \
-    Utils/ps_utils.cpp
+    Utils/ps_utils.cpp \
+    Signal/isignalmodel.cpp \
+    Signal/sawtoothsignal.cpp \
+    Logger/csvwritter.cpp \
+    Logger/iwritter.cpp \
+    Signal/baseperiodicsignal.cpp \
+    SamplerManager/isamplemanager.cpp \
+    SamplerManager/samplermanager.cpp \
+    Signal/jittersignal.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -35,9 +43,20 @@ HEADERS += \
     Configuration/inifileconfiguration.h \
     LFSR/ilinearfeedbackshiftregister.h \
     LFSR/linearfeedbackshiftregister.h \
-    Utils/ps_utils.h
+    Utils/ps_utils.h \
+    Signal/isignalmodel.h \
+    Signal/sawtoothsignal.h \
+    Logger/iwritter.h \
+    Logger/csvwritter.h \
+    Signal/baseperiodicsignal.h \
+    SamplerManager/isamplemanager.h \
+    SamplerManager/samplermanager.h \
+    Signal/jittersignal.h
 
 INCLUDEPATH += \
     Configuration \
     Utils \
-    LFSR
+    LFSR \
+    Signal \
+    Logger \
+    SamplerManager

@@ -19,8 +19,10 @@ public:
 
 public:
     void next();
-    unsigned getCurentResultValue();
+    unsigned getOutputValue();
     unsigned getMaxSequence();
+    char getRegisterSize(){return m_size;}
+    virtual char getOutputSize();
 
 private:
     char m_size;
@@ -32,15 +34,9 @@ private:
     FeedbackFunction m_feedbackFuncion;
     unsigned m_neutralFeedbackElement;
 
-private:
-    unsigned calculateParityBit(FeedbackFunction func, const unsigned regValue, unsigned feedbackMask, char size, unsigned neutralElement);
+    unsigned calculateParityBit();
 
     void initialize();
-
-
-
-
-
 
 };
 

@@ -18,6 +18,8 @@ unsigned bitwiseXOR(unsigned left, unsigned right);
 
 unsigned bitwiseXNOR(unsigned left, unsigned right);
 
+unsigned getMaskedBits(unsigned number, unsigned mask);
+
 }
 
 namespace types

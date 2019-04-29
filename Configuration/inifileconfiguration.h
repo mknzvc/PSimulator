@@ -13,22 +13,27 @@ public:
     IniFileConfiguration(const QString& fileName);
 
     virtual char getLSFRLength();
-
     virtual unsigned getLSFRSeed();
-
     virtual unsigned getFeedbackMask();
-
     virtual unsigned getResultMask();
-
     virtual FeedbackType getFeedbackType();
 
-    unsigned getStepsCount();
+    unsigned getStepsCount();    
+
+    virtual double getSourceSignalPeriode();
+    virtual double getSourceSignalSlope();
+    virtual double getSourceSignalYIntercept();
+    virtual double getSamplingSignalRatio();
 
 private:
 
     QSettings m_settings;
 
     void getMaskValue(const QString& value_name, uint& out);
+
+
+
+
 
 
 

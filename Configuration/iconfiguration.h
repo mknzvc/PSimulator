@@ -23,6 +23,17 @@ public:
 
     virtual unsigned getStepsCount() = 0;
 
+    //source signal
+    virtual double getSourceSignalPeriode() = 0;
+
+    virtual double getSourceSignalSlope() = 0;
+
+    virtual double getSourceSignalYIntercept() = 0;
+
+    //sampling
+    virtual double getSamplingSignalRatio() = 0;
+
+
 };
 
 #endif // ICONFIGURATION_H
