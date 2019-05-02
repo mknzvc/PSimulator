@@ -16,6 +16,10 @@ LinearFeedbackShiftRegister::LinearFeedbackShiftRegister(char size,
     initialize();
 }
 
+LinearFeedbackShiftRegister::~LinearFeedbackShiftRegister()
+{
+}
+
 void LinearFeedbackShiftRegister::next()
 {
     unsigned pBit = calculateParityBit();

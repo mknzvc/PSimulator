@@ -15,6 +15,7 @@ public:
                                 FeedbackType feedbackType,
                                 unsigned feedbackMask,
                                 unsigned resultMask);
+    ~LinearFeedbackShiftRegister();
 
 
 public:

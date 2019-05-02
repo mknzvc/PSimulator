@@ -46,18 +46,5 @@ int main(int argc, char *argv[])
 
     sampler->produceSamples(configuration->getStepsCount(), *writter);
 
-/*
-
-
-
-    for (unsigned i = 0; i < configuration->getStepsCount(); i++)
-    {
-
-        lfsr->next();
-        std::cout << QString("%1").arg(lfsr->getMaxSequence(), 16, 2, QChar('0')).toStdString()<<std::endl;
-    }
-
-*/
-
     return 0;
 }
