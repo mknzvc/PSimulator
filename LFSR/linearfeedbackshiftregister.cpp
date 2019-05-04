@@ -44,8 +44,9 @@ unsigned LinearFeedbackShiftRegister::getOutputValue()
             unsigned bit = utils::getNthBit(m_value, pos);
             if(bit)
             {
-                utils::setBit(curentValue, resultPos++);
+                utils::setBit(curentValue, resultPos);
             }
+            resultPos++;
         }
     }
 

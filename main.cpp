@@ -19,6 +19,7 @@
 int main(int argc, char *argv[])
 {
     QString configFile = argv[1];
+    QString outputFileName = argv[2];
 
     IConfiguration* configuration = new IniFileConfiguration(configFile);
 
@@ -28,7 +29,9 @@ int main(int argc, char *argv[])
                                         configuration->getSourceSignalYIntercept(),
                                         configuration->getSourceSignalPeriode()));
 
-    std::unique_ptr<BasePeriodicSignal> jsignal (new JitterSignal(200));
+    std::unique_ptr<BasePeriodicSignal> jsignal (new JitterSignal(configuration->getJitterSlope(),
+                                                                  configuration->getJitterYIntercept(),
+                                                                  configuration->getJitterPeriod()));
 
     std::unique_ptr<ILinearFeedbackShiftRegister> lfsr(new LinearFeedbackShiftRegister(
                     configuration->getLSFRLength(),
@@ -42,7 +45,7 @@ int main(int argc, char *argv[])
             (lfsr, stsignal, jsignal, configuration->getSamplingSignalRatio());
 
     std::fstream outputStream;
-    std::unique_ptr<IWritter> writter ( new CSVWritter(&outputStream, "output.csv"));
+    std::unique_ptr<IWritter> writter ( new CSVWritter(&outputStream, (outputFileName+".csv").toStdString()));
 
     sampler->produceSamples(configuration->getStepsCount(), *writter);
 

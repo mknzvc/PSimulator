@@ -33,6 +33,10 @@ public:
     //sampling
     virtual double getSamplingSignalRatio() = 0;
 
+    virtual double getJitterPeriod() = 0;
+    virtual double getJitterSlope() = 0;
+    virtual double getJitterYIntercept() = 0;
+
 
 };
 

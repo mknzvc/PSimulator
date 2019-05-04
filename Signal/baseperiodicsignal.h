@@ -10,9 +10,9 @@ public:
 
 
 
-private:
+protected:
     double m_period;
-
+private:
     double normalizeTimeToBasicPeriodRange(double time) const;
 
 

@@ -94,6 +94,11 @@ double IniFileConfiguration::getSamplingSignalRatio()
 {
     auto ratioCoefs = m_settings.value("ratio").toList();
 
+    if(ratioCoefs.empty())
+    {
+        return m_settings.value("ratio").toDouble();
+    }
+
     QList<QVariant>::iterator it = ratioCoefs.begin();
 
     double ratio = (*it).toDouble();
@@ -106,4 +111,19 @@ double IniFileConfiguration::getSamplingSignalRatio()
     }
 
     return ratio;
+}
+
+double IniFileConfiguration::getJitterPeriod()
+{
+    return m_settings.value("jitter_period").toDouble();
+}
+
+double IniFileConfiguration::getJitterSlope()
+{
+    return m_settings.value("jitter_slope").toDouble();
+}
+
+double IniFileConfiguration::getJitterYIntercept()
+{
+    return m_settings.value("jitter_y_intercept").toDouble();
 }

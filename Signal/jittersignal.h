@@ -7,10 +7,14 @@
 class JitterSignal : public BasePeriodicSignal
 {
 public:
-    JitterSignal(double period);
+    JitterSignal(double slope, double yIntercept, double period);
 
     // ISignal interface
 private:
+
+    double m_slope;
+    double m_yIntercept;
+
     virtual double func(double x) const;
 };
 

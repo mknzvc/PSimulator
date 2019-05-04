@@ -25,11 +25,18 @@ public:
     virtual double getSourceSignalYIntercept();
     virtual double getSamplingSignalRatio();
 
+    virtual double getJitterPeriod();
+    virtual double getJitterSlope();
+    virtual double getJitterYIntercept();
+
 private:
 
     QSettings m_settings;
 
     void getMaskValue(const QString& value_name, uint& out);
+
+
+
 
 
 
