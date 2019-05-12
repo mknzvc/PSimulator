@@ -1,42 +1,52 @@
 #include "samplermanager.h"
-#include "linearfeedbackshiftregister.h"
-#include "sawtoothsignal.h"
+#include <sstream>
 
-SamplerManager::SamplerManager(const std::unique_ptr<ILinearFeedbackShiftRegister> &lfsr,
+Sampler::Sampler(const std::unique_ptr<ILinearFeedbackShiftRegister> &lfsr,
                                const std::unique_ptr<BasePeriodicSignal> &periodicSignal,
                                const std::unique_ptr<BasePeriodicSignal>& timeJitterSignal,
                                double periodRatio)
-    :ISampleManager (0),
-      m_lfsr(lfsr),
-      m_periodicSignal(periodicSignal),
-      m_timeJitterSignal(timeJitterSignal),
-      m_periodRatio(periodRatio)
+    :BaseSampler(lfsr, periodicSignal, periodRatio),
+     m_timeJitterSignal(timeJitterSignal)
+
 {
     initialize();
 }
 
-SamplerManager::~SamplerManager()
+Sampler::~Sampler()
 {
 }
 
-void SamplerManager::initialize()
+void Sampler::initialize()
 {
-    m_samplingInterval = m_periodicSignal->getPeriod() / m_periodRatio;
+    m_Ts_0 = m_sourceSignal->getPeriod() / m_periodRatio;
+    m_include_jitter = static_cast<bool>(m_timeJitterSignal->getPeriod());
 }
 
-void SamplerManager::produceSamples(unsigned numberOfSamples, const IWritter &writter)
+void Sampler::incrementDiscreteTime()
 {
-    for (unsigned i = 0; i < numberOfSamples; ++i)
+    m_t += m_Ts_0;
+
+    if(m_include_jitter)
     {
-        m_lfsr->next();
-        auto lfsrOutput = m_lfsr->getOutputValue();
-
-        for (unsigned j=0; j < lfsrOutput; ++j)
-        {
-            m_curent_time += m_samplingInterval;
-            m_curent_time += m_timeJitterSignal->value(m_curent_time);
-        }
-
-        writter.writeDecimal(m_periodicSignal->value(m_curent_time));
+        m_t += m_timeJitterSignal->value(m_t);
     }
+}
+
+void Sampler::printOutputLine(const IWritter &writter) const
+{
+    std::stringstream sstream;
+
+    sstream << std::to_string(m_t) << "," << std::to_string(m_sourceSignal->value(m_t));
+
+    if(m_include_jitter)
+    {
+        sstream << "," << std::to_string(m_timeJitterSignal->value(m_t));
+    }
+
+    writter.writeLine(sstream.str());
+}
+
+void Sampler::printHeaderLine(const IWritter &writter) const
+{
+    writter.writeLine("time, sample, jitter");
 }

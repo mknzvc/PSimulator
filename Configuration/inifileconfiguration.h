@@ -20,29 +20,22 @@ public:
 
     unsigned getStepsCount();    
 
-    virtual double getSourceSignalPeriode();
-    virtual double getSourceSignalSlope();
-    virtual double getSourceSignalYIntercept();
+    virtual double getSourceSignalPeriod();
+    virtual double getSourceSignalMeanValue();
+    virtual double getSourceSignalValueRange();
+    virtual int getSourceType();
+
     virtual double getSamplingSignalRatio();
 
     virtual double getJitterPeriod();
-    virtual double getJitterSlope();
-    virtual double getJitterYIntercept();
+    virtual double getJitterMaxValue();
+    virtual double getJitterModulationIndex();
 
 private:
 
     QSettings m_settings;
 
     void getMaskValue(const QString& value_name, uint& out);
-
-
-
-
-
-
-
-
-
 
 };
 

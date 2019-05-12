@@ -24,18 +24,22 @@ public:
     virtual unsigned getStepsCount() = 0;
 
     //source signal
-    virtual double getSourceSignalPeriode() = 0;
+    virtual double getSourceSignalPeriod() = 0;
 
-    virtual double getSourceSignalSlope() = 0;
+    virtual double getSourceSignalValueRange() = 0;
 
-    virtual double getSourceSignalYIntercept() = 0;
+    virtual double getSourceSignalMeanValue() = 0;
+
+    virtual int getSourceType() = 0;
 
     //sampling
     virtual double getSamplingSignalRatio() = 0;
 
     virtual double getJitterPeriod() = 0;
-    virtual double getJitterSlope() = 0;
-    virtual double getJitterYIntercept() = 0;
+
+    virtual double getJitterMaxValue() = 0;
+
+    virtual double getJitterModulationIndex() = 0;
 
 
 };

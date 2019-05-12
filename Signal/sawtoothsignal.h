@@ -7,9 +7,12 @@
 class SawToothSignal : public BasePeriodicSignal
 {
 public:
-    SawToothSignal(double slope, double yIntercept, double getPeriod);
+    SawToothSignal(double valueRange, double period, double meanValue = 0);
 
 private:
+
+    double m_meanValue;
+
     double m_slope;
     double m_yIntercept;
 

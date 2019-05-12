@@ -6,9 +6,10 @@
 #include "linearfeedbackshiftregister.h"
 #include "isignalmodel.h"
 #include "sawtoothsignal.h"
-#include "jittersignal.h"
-#include "isamplemanager.h"
+#include "trianglesignal.h"
+#include "isampler.h"
 #include "samplermanager.h"
+#include "realsampler.h"
 #include "csvwritter.h"
 
 #include <iostream>
@@ -23,15 +24,42 @@ int main(int argc, char *argv[])
 
     IConfiguration* configuration = new IniFileConfiguration(configFile);
 
+    std::cout<<std::endl<<"PSimulator"<<std::endl<<std::endl;
+
+    std::cout<<(unsigned)configuration->getLSFRLength()<<"bit LFSR"<<std::endl;
+    std::cout<<"initial value  : "<<configuration->getLSFRSeed()<<std::endl;
+    std::cout<<"feedback bits  : "<<configuration->getFeedbackMask()<<std::endl;
+    std::cout<<"result bits    : "<<configuration->getResultMask()<<std::endl<<std::endl;
+
+    std::cout<<"source signal periode : "<<configuration->getSourceSignalPeriod()<<std::endl<<std::endl;
+
+    std::cout<<"T/Ts = "<<configuration->getSamplingSignalRatio()<<std::endl;
+
+    if(configuration->getJitterPeriod() != 0)
+    {
+        std::cout<<std::endl;
+        std::cout<<"jitter max     : " <<configuration->getJitterMaxValue()<<std::endl;
+        std::cout<<"jitter periode : " <<configuration->getJitterPeriod()<<std::endl;
+    }
+
     //qDebug()<<configuration->getSamplingSignalRatio();
 
-    std::unique_ptr<BasePeriodicSignal> stsignal (new SawToothSignal(configuration->getSourceSignalSlope(),
-                                        configuration->getSourceSignalYIntercept(),
-                                        configuration->getSourceSignalPeriode()));
+    std::unique_ptr<BasePeriodicSignal> ssignal;
 
-    std::unique_ptr<BasePeriodicSignal> jsignal (new JitterSignal(configuration->getJitterSlope(),
-                                                                  configuration->getJitterYIntercept(),
-                                                                  configuration->getJitterPeriod()));
+    if(configuration->getSourceType() == 0)
+    {
+        ssignal = std::unique_ptr<BasePeriodicSignal>(new TriangleSignal(configuration->getSourceSignalValueRange(),
+                                                                         configuration->getSourceSignalPeriod(),
+                                                                         configuration->getSourceSignalMeanValue()));
+    }else if(configuration->getSourceType() == 1)
+    {
+        ssignal = std::unique_ptr<BasePeriodicSignal>(new SawToothSignal(configuration->getSourceSignalValueRange(),
+                                                                         configuration->getSourceSignalPeriod(),
+                                                                         configuration->getSourceSignalMeanValue()));
+    }else {}
+
+    std::unique_ptr<BasePeriodicSignal> jsignal (new TriangleSignal(configuration->getJitterMaxValue(),
+                                                                    configuration->getJitterPeriod()));
 
     std::unique_ptr<ILinearFeedbackShiftRegister> lfsr(new LinearFeedbackShiftRegister(
                     configuration->getLSFRLength(),
@@ -41,13 +69,25 @@ int main(int argc, char *argv[])
                     configuration->getResultMask()));
 
 
-    ISampleManager *sampler = new SamplerManager
-            (lfsr, stsignal, jsignal, configuration->getSamplingSignalRatio());
+    ISampler *realSampler = new RealSampler
+            (lfsr, ssignal, jsignal,
+             configuration->getSamplingSignalRatio(),
+             configuration->getJitterModulationIndex());
+
 
     std::fstream outputStream;
     std::unique_ptr<IWritter> writter ( new CSVWritter(&outputStream, (outputFileName+".csv").toStdString()));
 
-    sampler->produceSamples(configuration->getStepsCount(), *writter);
+
+    std::cout<<std::endl<<"sampling started..."<<std::endl;
+
+    realSampler->produceSamples(configuration->getStepsCount(), *writter);
+
+
+    std::cout<<"finished."<<" "<<configuration->getStepsCount()<<" samples taken."<<std::endl;
+
+    delete configuration;
+    delete realSampler;
 
     return 0;
 }

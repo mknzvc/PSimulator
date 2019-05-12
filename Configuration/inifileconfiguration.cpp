@@ -75,19 +75,24 @@ void IniFileConfiguration::getMaskValue(const QString& value_name, uint& out)
     }
 }
 
-double IniFileConfiguration::getSourceSignalPeriode()
+double IniFileConfiguration::getSourceSignalValueRange()
 {
-    return m_settings.value("T").toDouble();
+    return m_settings.value("source_value_range").toDouble();
 }
 
-double IniFileConfiguration::getSourceSignalSlope()
+int IniFileConfiguration::getSourceType()
 {
-    return m_settings.value("slope").toDouble();
+    return m_settings.value("source_signal_type").toInt();
 }
 
-double IniFileConfiguration::getSourceSignalYIntercept()
+double IniFileConfiguration::getSourceSignalPeriod()
 {
-    return m_settings.value("y_intercept").toDouble();
+    return m_settings.value("source_period").toDouble();
+}
+
+double IniFileConfiguration::getSourceSignalMeanValue()
+{
+    return m_settings.value("source_mean_value").toDouble();
 }
 
 double IniFileConfiguration::getSamplingSignalRatio()
@@ -118,12 +123,12 @@ double IniFileConfiguration::getJitterPeriod()
     return m_settings.value("jitter_period").toDouble();
 }
 
-double IniFileConfiguration::getJitterSlope()
+double IniFileConfiguration::getJitterMaxValue()
 {
-    return m_settings.value("jitter_slope").toDouble();
+    return m_settings.value("jitter_max_value").toDouble();
 }
 
-double IniFileConfiguration::getJitterYIntercept()
+double IniFileConfiguration::getJitterModulationIndex()
 {
-    return m_settings.value("jitter_y_intercept").toDouble();
+    return m_settings.value("jitter_modulation_index").toDouble();
 }

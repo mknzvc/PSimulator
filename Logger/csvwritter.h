@@ -8,13 +8,7 @@ class CSVWritter : public IWritter
 {
 public:
     CSVWritter(std::fstream *stream, std::string fileName);
-
     ~CSVWritter();
-
-    // IWritter interface
-public:
-    virtual void writeDecimal(double number) const;
-    virtual void writeBinary(double number);
 
 };
 

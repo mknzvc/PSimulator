@@ -72,7 +72,6 @@ void LFSR16bitTest::testResultMask()
     lfsr = LinearFeedbackShiftRegister(16, 44257, FeedbackType::XOR, 45, 21278);
     QVERIFY(lfsr.getOutputValue() == 0);
     QVERIFY(lfsr.getOutputSize() == 8);
-
 }
 
 

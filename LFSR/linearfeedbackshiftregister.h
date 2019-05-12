@@ -21,6 +21,7 @@ public:
 public:
     void next();
     unsigned getOutputValue();
+    unsigned getMaxOutput();
     unsigned getMaxSequence();
     char getRegisterSize(){return m_size;}
     virtual char getOutputSize();

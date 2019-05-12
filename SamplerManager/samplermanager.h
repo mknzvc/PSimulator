@@ -3,35 +3,35 @@
 
 #include <memory>
 #include "iconfiguration.h"
-#include "iwritter.h"
-#include "ilinearfeedbackshiftregister.h"
-#include "isamplemanager.h"
-#include "baseperiodicsignal.h"
 
-class SamplerManager : public ISampleManager
+#include "basesampler.h"
+
+class Sampler : public BaseSampler
 {
 public:
-    SamplerManager(const std::unique_ptr<ILinearFeedbackShiftRegister>& lfsr,
+    Sampler(const std::unique_ptr<ILinearFeedbackShiftRegister> &lfsr,
                    const std::unique_ptr<BasePeriodicSignal> &periodicSignal,
-                   const std::unique_ptr<BasePeriodicSignal> &timeJitterSignal,
+                   const std::unique_ptr<BasePeriodicSignal>& timeJitterSignal,
                    double periodRatio);
-    virtual ~SamplerManager();
+    virtual ~Sampler();
 
 private:
 
-    const std::unique_ptr<ILinearFeedbackShiftRegister>& m_lfsr;
-    const std::unique_ptr<BasePeriodicSignal>& m_periodicSignal;
     const std::unique_ptr<BasePeriodicSignal>& m_timeJitterSignal;
 
-    double m_periodRatio;
-
-
+    bool m_include_jitter;
 
     void initialize();
 
 
-public:
-    virtual void produceSamples(unsigned numberOfSamples, const IWritter &writter);
+
+
+// ISampler interface
+private:
+    virtual void incrementDiscreteTime();
+
+    virtual void printOutputLine(const IWritter &writter) const;
+    virtual void printHeaderLine(const IWritter &writter) const;
 };
 
 #endif // SAMPLERMANAGER_H

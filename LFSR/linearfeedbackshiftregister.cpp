@@ -1,6 +1,6 @@
 #include "linearfeedbackshiftregister.h"
 
-#include <QDebug>
+#include <cmath>
 
 LinearFeedbackShiftRegister::LinearFeedbackShiftRegister(char size,
                                                          unsigned initialValue,
@@ -53,6 +53,11 @@ unsigned LinearFeedbackShiftRegister::getOutputValue()
     return curentValue;
 }
 
+unsigned LinearFeedbackShiftRegister::getMaxOutput()
+{
+    return std::pow(2u, static_cast<unsigned>(this->getOutputSize()));
+}
+
 unsigned LinearFeedbackShiftRegister::getMaxSequence()
 {
     return m_value;
@@ -60,7 +65,7 @@ unsigned LinearFeedbackShiftRegister::getMaxSequence()
 
 char LinearFeedbackShiftRegister::getOutputSize()
 {
-    utils::getOnesCount(m_resultMask);
+    return utils::getOnesCount(m_resultMask);
 }
 
 unsigned LinearFeedbackShiftRegister::calculateParityBit()

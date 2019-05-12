@@ -14,6 +14,8 @@ public:
 
     virtual char getOutputSize() = 0;
 
+    virtual unsigned getMaxOutput() = 0;
+
     virtual unsigned getOutputValue() = 0;
 
     virtual unsigned getMaxSequence() = 0;

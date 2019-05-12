@@ -7,11 +7,11 @@ class IWritter
 {
 public:
     IWritter(std::ostream *stream);
-    virtual ~IWritter() = 0;
+    virtual ~IWritter();
 
 
-    virtual void writeDecimal(double number) const = 0;
-    virtual void writeBinary(double number) = 0;
+    virtual void writeDecimal(double number) const;
+    virtual void writeLine(std::string line) const;
 
 protected:
     std::ostream* m_stream;
