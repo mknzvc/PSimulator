@@ -2,6 +2,7 @@
 #define ICONFIGURATION_H
 
 #include "ps_utils.h"
+#include <list>
 using namespace types;
 
 class IConfiguration
@@ -21,7 +22,7 @@ public:
 
     virtual FeedbackType getFeedbackType() = 0;
 
-    virtual unsigned getStepsCount() = 0;
+    virtual void getStepsCountList(std::list<unsigned>& countsList) = 0;
 
     //source signal
     virtual double getSourceSignalPeriod() = 0;
@@ -36,8 +37,6 @@ public:
     virtual double getSamplingSignalRatio() = 0;
 
     virtual double getJitterPeriod() = 0;
-
-    virtual double getJitterMaxValue() = 0;
 
     virtual double getJitterModulationIndex() = 0;
 

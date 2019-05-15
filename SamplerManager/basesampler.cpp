@@ -19,6 +19,8 @@ void BaseSampler::produceSamples(unsigned numberOfSamples, const IWritter &writt
 {
     auto maxSampleValue = m_lfsr->getMaxOutput();
 
+    printHeaderLine(writter);
+
     for (unsigned i = 0; i < numberOfSamples; ++i, m_lfsr->next())
     {
         auto lfsrOutput = m_lfsr->getOutputValue();

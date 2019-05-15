@@ -18,7 +18,8 @@ public:
     virtual unsigned getResultMask();
     virtual FeedbackType getFeedbackType();
 
-    unsigned getStepsCount();    
+    virtual void getStepsCountList(std::list<unsigned>& countsList);
+
 
     virtual double getSourceSignalPeriod();
     virtual double getSourceSignalMeanValue();
@@ -28,7 +29,6 @@ public:
     virtual double getSamplingSignalRatio();
 
     virtual double getJitterPeriod();
-    virtual double getJitterMaxValue();
     virtual double getJitterModulationIndex();
 
 private:

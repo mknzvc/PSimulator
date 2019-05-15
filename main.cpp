@@ -31,6 +31,7 @@ int main(int argc, char *argv[])
     std::cout<<"feedback bits  : "<<configuration->getFeedbackMask()<<std::endl;
     std::cout<<"result bits    : "<<configuration->getResultMask()<<std::endl<<std::endl;
 
+
     std::cout<<"source signal periode : "<<configuration->getSourceSignalPeriod()<<std::endl<<std::endl;
 
     std::cout<<"T/Ts = "<<configuration->getSamplingSignalRatio()<<std::endl;
@@ -38,11 +39,11 @@ int main(int argc, char *argv[])
     if(configuration->getJitterPeriod() != 0)
     {
         std::cout<<std::endl;
-        std::cout<<"jitter max     : " <<configuration->getJitterMaxValue()<<std::endl;
-        std::cout<<"jitter periode : " <<configuration->getJitterPeriod()<<std::endl;
+        std::cout<<"modulation index : " <<configuration->getJitterModulationIndex()<<std::endl;
+        std::cout<<"jitter periode   : " <<configuration->getJitterPeriod()<<std::endl;
     }
 
-    //qDebug()<<configuration->getSamplingSignalRatio();
+
 
     std::unique_ptr<BasePeriodicSignal> ssignal;
 
@@ -58,7 +59,7 @@ int main(int argc, char *argv[])
                                                                          configuration->getSourceSignalMeanValue()));
     }else {}
 
-    std::unique_ptr<BasePeriodicSignal> jsignal (new TriangleSignal(configuration->getJitterMaxValue(),
+    std::unique_ptr<BasePeriodicSignal> jsignal (new TriangleSignal(2.0,
                                                                     configuration->getJitterPeriod()));
 
     std::unique_ptr<ILinearFeedbackShiftRegister> lfsr(new LinearFeedbackShiftRegister(
@@ -75,16 +76,30 @@ int main(int argc, char *argv[])
              configuration->getJitterModulationIndex());
 
 
-    std::fstream outputStream;
-    std::unique_ptr<IWritter> writter ( new CSVWritter(&outputStream, (outputFileName+".csv").toStdString()));
+
+    std::list<unsigned> sampleNoList;
+    configuration->getStepsCountList(sampleNoList);
 
 
-    std::cout<<std::endl<<"sampling started..."<<std::endl;
+    for (auto listIt = sampleNoList.begin(); listIt != sampleNoList.end(); listIt++)
+    {
+        std::fstream outputStream;
+        std::unique_ptr<IWritter> writter
+                (new CSVWritter
+                    (&outputStream, (outputFileName.toStdString() + "_" + std::to_string(*listIt) + ".csv")));
 
-    realSampler->produceSamples(configuration->getStepsCount(), *writter);
+       std::cout<<std::endl<<std::to_string(*listIt/1000) + "_k: sampling started... ";
+
+       realSampler->produceSamples(*listIt, *writter);
+
+       std::cout<<"sample finished."<<std::endl;
+
+    }
+    std::cout<<"finished."<<std::endl<<std::endl;
 
 
-    std::cout<<"finished."<<" "<<configuration->getStepsCount()<<" samples taken."<<std::endl;
+
+    ;
 
     delete configuration;
     delete realSampler;

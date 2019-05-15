@@ -47,5 +47,13 @@ void RealSampler::printOutputLine(const IWritter &writter) const
 
 void RealSampler::printHeaderLine(const IWritter &writter) const
 {
-    writter.writeLine("time, sample, jitter");
+    if(m_include_jitter)
+    {
+        writter.writeLine("time, sample, jitter");
+    }
+    else
+    {
+        writter.writeLine("time, sample");
+    }
+
 }

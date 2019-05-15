@@ -48,9 +48,21 @@ FeedbackType IniFileConfiguration::getFeedbackType()
 
 }
 
-unsigned IniFileConfiguration::getStepsCount()
+void IniFileConfiguration::getStepsCountList(std::list<unsigned>& countsList)
 {
-    return m_settings.value("steps_count").toUInt();
+    auto qlist = m_settings.value("steps_count").toList();
+
+    if(qlist.empty())
+    {
+        countsList.push_back(m_settings.value("steps_count").toUInt());
+    }
+    else
+    {
+        foreach (auto item, qlist)
+        {
+            countsList.push_back(item.toUInt());
+        }
+    }
 }
 
 unsigned IniFileConfiguration::getFeedbackMask()
@@ -121,11 +133,6 @@ double IniFileConfiguration::getSamplingSignalRatio()
 double IniFileConfiguration::getJitterPeriod()
 {
     return m_settings.value("jitter_period").toDouble();
-}
-
-double IniFileConfiguration::getJitterMaxValue()
-{
-    return m_settings.value("jitter_max_value").toDouble();
 }
 
 double IniFileConfiguration::getJitterModulationIndex()
