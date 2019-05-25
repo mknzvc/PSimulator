@@ -10,6 +10,7 @@
 #include "isampler.h"
 #include "realsampler.h"
 #include "fsampler.h"
+#include "sampler.h"
 #include "csvwritter.h"
 
 #include <iostream>
@@ -19,8 +20,11 @@
 
 int main(int argc, char *argv[])
 {
-    QString configFile = argv[1];
-    QString outputFileName = argv[2];
+    std::string configFileCStr = argv[1];
+    std::string outputFileName = argv[2];
+
+    QString configFile = QString::fromStdString(configFileCStr);
+    //QString outputFileName = QString::fromStdString(outputFileNameCStr);
 
     IConfiguration* configuration = new IniFileConfiguration(configFile);
 
@@ -74,12 +78,19 @@ int main(int argc, char *argv[])
 
     if(configuration->getCalculationType() == 0)
     {
-        realSampler = new RealSampler
+        realSampler = new Sampler
                 (lfsr, ssignal, jsignal,
                  configuration->getSamplingSignalRatio(),
                  configuration->getJitterModulationIndex());
     }
     else if (configuration->getCalculationType() == 1)
+    {
+        realSampler = new RealSampler
+                (lfsr, ssignal, jsignal,
+                 configuration->getSamplingSignalRatio(),
+                 configuration->getJitterModulationIndex());
+    }
+    else if (configuration->getCalculationType() == 2)
     {
         realSampler = new FSampler
                 (lfsr, ssignal, jsignal,
@@ -100,7 +111,7 @@ int main(int argc, char *argv[])
     for (auto listIt = sampleNoList.begin(); listIt != sampleNoList.end(); listIt++)
     {
         std::unique_ptr<IWritter> writter
-                (new CSVWritter(outputFileName.toStdString() + "_" + std::to_string(*listIt) + ".csv",
+                (new CSVWritter(outputFileName + "_" + std::to_string(*listIt) + ".csv",
                  outType));
 
        std::cout<<std::endl<<std::to_string(*listIt/1000) + "_k: sampling started... ";

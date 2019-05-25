@@ -11,7 +11,7 @@ typedef void (*FormatOutput)(double, double, double, std::stringstream& ssOut);
 class CSVWritter : public IWritter
 {
 public:
-    CSVWritter(std::string outFileName, types::OutputType outputType);
+    CSVWritter(const std::string &outFileName, const types::OutputType &outputType);
     ~CSVWritter();
 
 private:

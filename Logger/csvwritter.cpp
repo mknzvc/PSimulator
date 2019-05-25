@@ -18,7 +18,7 @@ void formatBinaryOutput(double time, double sample, double jitter, std::stringst
 }
 
 
-CSVWritter::CSVWritter(std::string outFileName, types::OutputType outputType) : IWritter()
+CSVWritter::CSVWritter(const std::string& outFileName, const types::OutputType& outputType) : IWritter()
 {
     m_stream = new std::fstream;
     m_ss = new std::stringstream;
@@ -35,7 +35,9 @@ CSVWritter::CSVWritter(std::string outFileName, types::OutputType outputType) : 
 
 CSVWritter::~CSVWritter()
 {
-    static_cast<std::ofstream*>(m_stream)->close();
+    static_cast<std::fstream*>(m_stream)->close();
+
+    delete m_stream;
 
     m_outputFormatVector.clear();
 }

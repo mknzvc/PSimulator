@@ -53,7 +53,6 @@ HEADERS += \
     Logger/iwritter.h \
     Logger/csvwritter.h \
     Signal/baseperiodicsignal.h \
-    SamplerManager/samplermanager.h \
     Test/sawsignaltest.h \
     SamplerManager/realsampler.h \
     SamplerManager/isampler.h \
@@ -61,7 +60,8 @@ HEADERS += \
     Signal/trianglesignal.h \
     Signal/isignal.h \
     SamplerManager/fsampler.h \
-    SamplerManager/samplerfactory.h
+    SamplerManager/samplerfactory.h \
+    SamplerManager/sampler.h
 
 test{
     message(Configuring test build...)

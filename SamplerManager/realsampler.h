@@ -26,7 +26,6 @@ protected:
 
     void initialize();
 
-    // ISampleManager interface
 
 private:
     virtual void incrementDiscreteTime();

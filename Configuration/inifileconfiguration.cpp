@@ -2,7 +2,7 @@
 #include <QList>
 #include <cmath>
 
-IniFileConfiguration::IniFileConfiguration(const QString &fileName)
+IniFileConfiguration::IniFileConfiguration(const QString& fileName)
     :m_settings(fileName, QSettings::IniFormat)
 {
 }
