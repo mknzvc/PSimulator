@@ -29,6 +29,13 @@ enum class FeedbackType
     XNOR = 1
 };
 
+enum class OutputType
+{
+    NATURAL = 0,
+    NATURAL_AND_BINARY = 1,
+    BINARY = 2
+};
+
 }
 
 #endif // PS_UTILS_H

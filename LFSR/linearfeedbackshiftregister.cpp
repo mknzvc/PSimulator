@@ -1,5 +1,4 @@
 #include "linearfeedbackshiftregister.h"
-
 #include <cmath>
 
 LinearFeedbackShiftRegister::LinearFeedbackShiftRegister(char size,
@@ -55,7 +54,7 @@ unsigned LinearFeedbackShiftRegister::getOutputValue()
 
 unsigned LinearFeedbackShiftRegister::getMaxOutput()
 {
-    return std::pow(2u, static_cast<unsigned>(this->getOutputSize()));
+    return static_cast<unsigned>( std::pow(2, this->getOutputSize()) );
 }
 
 unsigned LinearFeedbackShiftRegister::getMaxSequence()

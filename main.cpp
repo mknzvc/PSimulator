@@ -4,12 +4,12 @@
 #include "inifileconfiguration.h"
 #include "ilinearfeedbackshiftregister.h"
 #include "linearfeedbackshiftregister.h"
-#include "isignalmodel.h"
+#include "isignal.h"
 #include "sawtoothsignal.h"
 #include "trianglesignal.h"
 #include "isampler.h"
-#include "samplermanager.h"
 #include "realsampler.h"
+#include "fsampler.h"
 #include "csvwritter.h"
 
 #include <iostream>
@@ -70,23 +70,38 @@ int main(int argc, char *argv[])
                     configuration->getResultMask()));
 
 
-    ISampler *realSampler = new RealSampler
-            (lfsr, ssignal, jsignal,
-             configuration->getSamplingSignalRatio(),
-             configuration->getJitterModulationIndex());
+    ISampler *realSampler;
+
+    if(configuration->getCalculationType() == 0)
+    {
+        realSampler = new RealSampler
+                (lfsr, ssignal, jsignal,
+                 configuration->getSamplingSignalRatio(),
+                 configuration->getJitterModulationIndex());
+    }
+    else if (configuration->getCalculationType() == 1)
+    {
+        realSampler = new FSampler
+                (lfsr, ssignal, jsignal,
+                 configuration->getSamplingSignalRatio(),
+                 configuration->getJitterModulationIndex());
+    }
+
+
 
 
 
     std::list<unsigned> sampleNoList;
     configuration->getStepsCountList(sampleNoList);
 
+    OutputType outType = configuration->getOutputType();
+
 
     for (auto listIt = sampleNoList.begin(); listIt != sampleNoList.end(); listIt++)
     {
-        std::fstream outputStream;
         std::unique_ptr<IWritter> writter
-                (new CSVWritter
-                    (&outputStream, (outputFileName.toStdString() + "_" + std::to_string(*listIt) + ".csv")));
+                (new CSVWritter(outputFileName.toStdString() + "_" + std::to_string(*listIt) + ".csv",
+                 outType));
 
        std::cout<<std::endl<<std::to_string(*listIt/1000) + "_k: sampling started... ";
 
@@ -97,9 +112,6 @@ int main(int argc, char *argv[])
     }
     std::cout<<"finished."<<std::endl<<std::endl;
 
-
-
-    ;
 
     delete configuration;
     delete realSampler;

@@ -1,8 +1,8 @@
 #include "iwritter.h"
+#include <fstream>
 
 
-IWritter::IWritter(std::ostream* stream)
-    :m_stream(stream)
+IWritter::IWritter()
 {
 }
 

@@ -11,6 +11,10 @@ BaseSampler::BaseSampler(const std::unique_ptr<ILinearFeedbackShiftRegister> &lf
     initialize();
 }
 
+BaseSampler::~BaseSampler()
+{
+}
+
 void BaseSampler::initialize()
 {
 }

@@ -1,4 +1,5 @@
 #include "trianglesignal.h"
+#include <cmath>
 
 TriangleSignal::TriangleSignal(double valueRange, double period, double meanValue)
     : BasePeriodicSignal(period),
@@ -11,6 +12,13 @@ TriangleSignal::TriangleSignal(double valueRange, double period, double meanValu
 
     m_yIntercep_halfperiod1 = -yMax;
     m_yIntercep_halfperiod2 = 3*yMax;
+
+    if(std::round(period) == 0)
+    {
+        m_slope_halfperiod1 = m_slope_halfperiod2 = 0;
+        m_yIntercep_halfperiod1 = m_yIntercep_halfperiod2 = 0;
+        m_meanValue = 0;
+    }
 }
 
 double TriangleSignal::func(double x) const

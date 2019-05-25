@@ -15,6 +15,7 @@ public:
     BaseSampler(const std::unique_ptr<ILinearFeedbackShiftRegister>& lfsr,
                 const std::unique_ptr<BasePeriodicSignal> &periodicSignal,
                 double periodRatio);
+    virtual ~BaseSampler();
 
 protected:
 
@@ -22,7 +23,6 @@ protected:
     const std::unique_ptr<BasePeriodicSignal>& m_sourceSignal;
 
     double m_periodRatio;
-
 private:
     void initialize();
 

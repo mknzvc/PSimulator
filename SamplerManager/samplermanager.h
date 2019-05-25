@@ -3,7 +3,6 @@
 
 #include <memory>
 #include "iconfiguration.h"
-
 #include "basesampler.h"
 
 class Sampler : public BaseSampler

@@ -1,6 +1,7 @@
 #include "samplermanager.h"
 #include <sstream>
 
+
 Sampler::Sampler(const std::unique_ptr<ILinearFeedbackShiftRegister> &lfsr,
                                const std::unique_ptr<BasePeriodicSignal> &periodicSignal,
                                const std::unique_ptr<BasePeriodicSignal>& timeJitterSignal,
@@ -20,6 +21,7 @@ void Sampler::initialize()
 {
     m_Ts_0 = m_sourceSignal->getPeriod() / m_periodRatio;
     m_include_jitter = static_cast<bool>(m_timeJitterSignal->getPeriod());
+
 }
 
 void Sampler::incrementDiscreteTime()
@@ -28,7 +30,7 @@ void Sampler::incrementDiscreteTime()
 
     if(m_include_jitter)
     {
-        m_t += m_timeJitterSignal->value(m_t);
+        m_t += m_timeJitterSignal->value(m_t);        
     }
 }
 

@@ -31,6 +31,11 @@ public:
     virtual double getJitterPeriod();
     virtual double getJitterModulationIndex();
 
+    virtual unsigned getCalculationType();
+
+
+    virtual OutputType getOutputType();
+
 private:
 
     QSettings m_settings;

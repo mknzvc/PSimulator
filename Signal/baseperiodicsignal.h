@@ -1,7 +1,7 @@
 #ifndef BASEPERIODICSIGNAL_H
 #define BASEPERIODICSIGNAL_H
 
-#include "isignalmodel.h"
+#include "isignal.h"
 
 class BasePeriodicSignal : public ISignal
 {
@@ -16,11 +16,9 @@ private:
     double normalizeTimeToBasicPeriodRange(double time) const;
 
 
-    // ISignal interface
 public:
     virtual double value(double time) const;
 
-    // ISignal interface
     double getPeriod() const;
 
 private:

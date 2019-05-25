@@ -6,15 +6,18 @@
 class IWritter
 {
 public:
-    IWritter(std::ostream *stream);
+    IWritter();
     virtual ~IWritter();
 
-
-    virtual void writeDecimal(double number) const;
-    virtual void writeLine(std::string line) const;
-
 protected:
+    void writeDecimal(double number) const;
+
+
     std::ostream* m_stream;
+public:
+    virtual void writeSamples(double time, double sampleVal, double jitterVal = 0) const = 0;
+    void writeLine(std::string line) const;
+
 };
 
 #endif // ILOGGER_H

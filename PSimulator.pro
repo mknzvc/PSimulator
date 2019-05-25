@@ -26,12 +26,14 @@ SOURCES += \
     Logger/csvwritter.cpp \
     Logger/iwritter.cpp \
     Signal/baseperiodicsignal.cpp \
-    SamplerManager/samplermanager.cpp \
     Test/sawsignaltest.cpp \
     SamplerManager/realsampler.cpp \
     SamplerManager/isampler.cpp \
     SamplerManager/basesampler.cpp \
-    Signal/trianglesignal.cpp
+    Signal/trianglesignal.cpp \
+    SamplerManager/fsampler.cpp \
+    SamplerManager/samplerfactory.cpp \
+    SamplerManager/sampler.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -47,7 +49,6 @@ HEADERS += \
     LFSR/ilinearfeedbackshiftregister.h \
     LFSR/linearfeedbackshiftregister.h \
     Utils/ps_utils.h \
-    Signal/isignalmodel.h \
     Signal/sawtoothsignal.h \
     Logger/iwritter.h \
     Logger/csvwritter.h \
@@ -57,7 +58,10 @@ HEADERS += \
     SamplerManager/realsampler.h \
     SamplerManager/isampler.h \
     SamplerManager/basesampler.h \
-    Signal/trianglesignal.h
+    Signal/trianglesignal.h \
+    Signal/isignal.h \
+    SamplerManager/fsampler.h \
+    SamplerManager/samplerfactory.h
 
 test{
     message(Configuring test build...)

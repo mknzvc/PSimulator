@@ -40,6 +40,12 @@ public:
 
     virtual double getJitterModulationIndex() = 0;
 
+    virtual unsigned getCalculationType() = 0;
+
+    //output
+
+    virtual OutputType getOutputType() = 0;
+
 
 };
 

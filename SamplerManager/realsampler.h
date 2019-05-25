@@ -2,7 +2,7 @@
 #define REALSAMPLER_H
 
 #include "basesampler.h"
-
+#include <fstream>
 
 class RealSampler : public BaseSampler
 {
@@ -13,12 +13,16 @@ public:
                 double periodRatio,
                 double modulationIndex);
 
-private:
+    ~RealSampler();
+
+protected:
     const std::unique_ptr<BasePeriodicSignal>& m_timeJitterSignal;
 
-    bool m_include_jitter;
+    bool m_include_jitter;    
 
     double m_modulationIndex;
+
+    std::fstream* m_help_fstream;
 
     void initialize();
 

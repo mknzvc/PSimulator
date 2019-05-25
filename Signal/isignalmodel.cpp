@@ -1,4 +1,4 @@
-#include "isignalmodel.h"
+#include "isignal.h"
 
 ISignal::ISignal()
 {    

@@ -1,7 +1,7 @@
 #ifndef ISAMPLEMANAGER_H
 #define ISAMPLEMANAGER_H
 
-#include "isignalmodel.h"
+#include "isignal.h"
 #include "iwritter.h"
 
 class ISampler

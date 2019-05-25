@@ -2,8 +2,6 @@
 #include <QList>
 #include <cmath>
 
-#include <QDebug>
-
 IniFileConfiguration::IniFileConfiguration(const QString &fileName)
     :m_settings(fileName, QSettings::IniFormat)
 {
@@ -32,20 +30,7 @@ FeedbackType IniFileConfiguration::getFeedbackType()
 {
     auto feedbackTypeValue = m_settings.value("feedback_type").toInt();
 
-    FeedbackType feedbackType = FeedbackType::XOR;
-
-    if(feedbackTypeValue == 0)
-    {
-        feedbackType = FeedbackType::XOR;
-    }
-
-    if(feedbackTypeValue == 1)
-    {
-        feedbackType = FeedbackType::XNOR;
-    }
-
-    return feedbackType;
-
+    return static_cast<FeedbackType>(feedbackTypeValue);
 }
 
 void IniFileConfiguration::getStepsCountList(std::list<unsigned>& countsList)
@@ -138,4 +123,16 @@ double IniFileConfiguration::getJitterPeriod()
 double IniFileConfiguration::getJitterModulationIndex()
 {
     return m_settings.value("jitter_modulation_index").toDouble();
+}
+
+unsigned IniFileConfiguration::getCalculationType()
+{
+    return m_settings.value("sample_interval_calculation").toUInt();
+}
+
+OutputType IniFileConfiguration::getOutputType()
+{
+    unsigned type =  m_settings.value("output_type").toUInt();
+
+    return static_cast<OutputType>(type);
 }
