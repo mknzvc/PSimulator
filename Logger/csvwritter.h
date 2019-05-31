@@ -6,16 +6,19 @@
 #include <vector>
 #include <sstream>
 
-typedef void (*FormatOutput)(double, double, double, std::stringstream& ssOut);
+typedef void (*FormatBinaryFn)(double, std::stringstream& ssOut);
+typedef void (*FormatOutputFn)(double, double, double, std::stringstream& ssOut, FormatBinaryFn bcFunc);
+
 
 class CSVWritter : public IWritter
 {
 public:
-    CSVWritter(const std::string &outFileName, const types::OutputType &outputType);
+    CSVWritter(const std::string &outFileName, const types::OutputType &outputType, const types::BinaryCoding& coding);
     ~CSVWritter();
 
 private:
-    FormatOutput m_formatOutputFunction;
+    FormatOutputFn m_formatOutputFunction;
+    FormatBinaryFn m_formatBinaryFunction;
 
     std::stringstream* m_ss;
 
@@ -25,7 +28,8 @@ private:
 //    void formatNatAndBinOutput(double time, double sample, double jitter, std::stringstream& ssOut);
 //    void formatBinaryOutput(double time, double sample, double jitter, std::stringstream& ssOut);
 
-    std::vector<FormatOutput> m_outputFormatVector;
+    std::vector<FormatOutputFn> m_outputFormatVector;
+    std::vector<FormatBinaryFn> m_binaryFormatVector;
 
 public:
     virtual void writeSamples(double time, double sampleVal, double jitterVal) const;

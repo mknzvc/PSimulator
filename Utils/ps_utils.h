@@ -36,6 +36,12 @@ enum class OutputType
     BINARY = 2
 };
 
+enum class BinaryCoding
+{
+    SIGN_CODDED = 0,
+    VALUE_CODDED = 1
+};
+
 }
 
 #endif // PS_UTILS_H

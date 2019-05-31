@@ -31,7 +31,7 @@ public:
 
     virtual double getSourceSignalMeanValue() = 0;
 
-    virtual int getSourceType() = 0;
+    virtual unsigned getSourceType() = 0;
 
     //sampling
     virtual double getSamplingSignalRatio() = 0;
@@ -42,9 +42,13 @@ public:
 
     virtual unsigned getCalculationType() = 0;
 
+    virtual unsigned getJitterType() = 0;
+
     //output
 
     virtual OutputType getOutputType() = 0;
+
+    virtual BinaryCoding getBinaryCoding() = 0;
 
 
 };

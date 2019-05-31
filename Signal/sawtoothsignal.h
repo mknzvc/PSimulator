@@ -3,6 +3,8 @@
 
 #include "baseperiodicsignal.h"
 
+#include <memory>
+
 
 class SawToothSignal : public BasePeriodicSignal
 {
@@ -17,6 +19,13 @@ private:
     double m_yIntercept;
 
     double func(double x) const;
+
+public:
+
+    static std::unique_ptr<ISignal> Create(double valueRange, double period, double meanValue = 0)
+    {
+        return std::unique_ptr<ISignal>(new SawToothSignal(valueRange, period, meanValue));
+    }
 
 };
 

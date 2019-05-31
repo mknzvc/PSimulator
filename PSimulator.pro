@@ -21,19 +21,21 @@ SOURCES += \
     LFSR/ilinearfeedbackshiftregister.cpp \
     LFSR/linearfeedbackshiftregister.cpp \
     Utils/ps_utils.cpp \
-    Signal/isignalmodel.cpp \
     Signal/sawtoothsignal.cpp \
     Logger/csvwritter.cpp \
     Logger/iwritter.cpp \
     Signal/baseperiodicsignal.cpp \
     Test/sawsignaltest.cpp \
     SamplerManager/realsampler.cpp \
-    SamplerManager/isampler.cpp \
-    SamplerManager/basesampler.cpp \
     Signal/trianglesignal.cpp \
     SamplerManager/fsampler.cpp \
     SamplerManager/samplerfactory.cpp \
-    SamplerManager/sampler.cpp
+    SamplerManager/sampler.cpp \
+    SamplerManager/isampler.cpp \
+    Signal/uniformdistrrandomsignal.cpp \
+    Signal/triangledistrrandomsignal.cpp \
+    Signal/signalfactory.cpp \
+    Signal/isignal.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -55,13 +57,15 @@ HEADERS += \
     Signal/baseperiodicsignal.h \
     Test/sawsignaltest.h \
     SamplerManager/realsampler.h \
-    SamplerManager/isampler.h \
-    SamplerManager/basesampler.h \
     Signal/trianglesignal.h \
     Signal/isignal.h \
     SamplerManager/fsampler.h \
     SamplerManager/samplerfactory.h \
-    SamplerManager/sampler.h
+    SamplerManager/sampler.h \
+    SamplerManager/isampler.h \
+    Signal/uniformdistrrandomsignal.h \
+    Signal/triangledistrrandomsignal.h \
+    Signal/signalfactory.h
 
 test{
     message(Configuring test build...)

@@ -4,29 +4,37 @@
 #include "isampler.h"
 #include <map>
 
-//typedef ISampler* (*CreateSamplerFn)(void);
+typedef std::unique_ptr<ISampler> (*CreateSamplerFn)(const std::unique_ptr<ILinearFeedbackShiftRegister> &lfsr,
+                                     const std::unique_ptr<ISignal> &periodicSignal,
+                                     const std::unique_ptr<ISignal>& timeJitterSignal,
+                                     double periodRatio,
+                                     double modulationIndex);
 
 class SamplerFactory
 {
 
-//private:
+private:
     SamplerFactory();
 
-//    typedef std::map<ISampler, int> FactoryMap;
+    typedef std::map<unsigned, CreateSamplerFn> FactoryMap;
 
-//    FactoryMap m_FactoryMap;
+    FactoryMap m_FactoryMap;
 
-//public:
-//    ~SamplerFactory(){m_FactoryMap.clear();}
+public:
+    ~SamplerFactory(){m_FactoryMap.clear();}
 
-//    static SamplerFactory* Get()
-//    {
-//        static SamplerFactory instance;
-//        return &instance;
-//    }
+    static SamplerFactory* Get()
+    {
+        static SamplerFactory instance;
+        return &instance;
+    }
 
-//    void Register(const std::string& samplerName, CreateSamplerFn samplerCreate);
-//    ISampler* CreateSampler(const std::string& samplerName);
+    void Register(const unsigned samplerNo, CreateSamplerFn samplerCreate);
+    std::unique_ptr<ISampler> CreateSampler(const unsigned samplerNo, const std::unique_ptr<ILinearFeedbackShiftRegister> &lfsr,
+                                                      const std::unique_ptr<ISignal> &periodicSignal,
+                                                      const std::unique_ptr<ISignal>& timeJitterSignal,
+                                                      double periodRatio,
+                                                      double modulationIndex);
 };
 
 #endif // SAMPLERFACTORY_H

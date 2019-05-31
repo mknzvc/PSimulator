@@ -77,9 +77,9 @@ double IniFileConfiguration::getSourceSignalValueRange()
     return m_settings.value("source_value_range").toDouble();
 }
 
-int IniFileConfiguration::getSourceType()
+unsigned IniFileConfiguration::getSourceType()
 {
-    return m_settings.value("source_signal_type").toInt();
+    return m_settings.value("source_signal_type").toUInt();
 }
 
 double IniFileConfiguration::getSourceSignalPeriod()
@@ -130,9 +130,21 @@ unsigned IniFileConfiguration::getCalculationType()
     return m_settings.value("sample_interval_calculation").toUInt();
 }
 
+unsigned IniFileConfiguration::getJitterType()
+{
+    return m_settings.value("jitter_type").toUInt();
+}
+
 OutputType IniFileConfiguration::getOutputType()
 {
     unsigned type =  m_settings.value("output_type").toUInt();
 
     return static_cast<OutputType>(type);
+}
+
+BinaryCoding IniFileConfiguration::getBinaryCoding()
+{
+    unsigned code =  m_settings.value("binary_code").toUInt();
+
+    return static_cast<BinaryCoding>(code);
 }

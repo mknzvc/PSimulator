@@ -1,5 +1,4 @@
 #include <QString>
-#include <QDebug>
 #include "iconfiguration.h"
 #include "inifileconfiguration.h"
 #include "ilinearfeedbackshiftregister.h"
@@ -8,10 +7,11 @@
 #include "sawtoothsignal.h"
 #include "trianglesignal.h"
 #include "isampler.h"
-#include "realsampler.h"
-#include "fsampler.h"
-#include "sampler.h"
 #include "csvwritter.h"
+#include "triangledistrrandomsignal.h"
+
+#include "samplerfactory.h"
+#include "signalfactory.h"
 
 #include <iostream>
 #include <fstream>
@@ -49,22 +49,24 @@ int main(int argc, char *argv[])
 
 
 
-    std::unique_ptr<BasePeriodicSignal> ssignal;
+    std::unique_ptr<ISignal> ssignal;
 
-    if(configuration->getSourceType() == 0)
-    {
-        ssignal = std::unique_ptr<BasePeriodicSignal>(new TriangleSignal(configuration->getSourceSignalValueRange(),
-                                                                         configuration->getSourceSignalPeriod(),
-                                                                         configuration->getSourceSignalMeanValue()));
-    }else if(configuration->getSourceType() == 1)
-    {
-        ssignal = std::unique_ptr<BasePeriodicSignal>(new SawToothSignal(configuration->getSourceSignalValueRange(),
-                                                                         configuration->getSourceSignalPeriod(),
-                                                                         configuration->getSourceSignalMeanValue()));
-    }else {}
+    ssignal = SignalFactory::Get()->CreateSignal(configuration->getSourceType(),
+                                                 configuration->getSourceSignalValueRange(),
+                                                 configuration->getSourceSignalPeriod(),
+                                                 configuration->getSourceSignalMeanValue());
 
-    std::unique_ptr<BasePeriodicSignal> jsignal (new TriangleSignal(2.0,
-                                                                    configuration->getJitterPeriod()));
+
+
+
+    std::unique_ptr<ISignal> jsignal;
+
+    jsignal = SignalFactory::Get()->CreateSignal(configuration->getJitterType(),
+                                                 2.0,
+                                                 configuration->getJitterPeriod());
+
+
+
 
     std::unique_ptr<ILinearFeedbackShiftRegister> lfsr(new LinearFeedbackShiftRegister(
                     configuration->getLSFRLength(),
@@ -74,45 +76,28 @@ int main(int argc, char *argv[])
                     configuration->getResultMask()));
 
 
-    ISampler *realSampler;
+    std::unique_ptr<ISampler> realSampler;
 
-    if(configuration->getCalculationType() == 0)
-    {
-        realSampler = new Sampler
-                (lfsr, ssignal, jsignal,
-                 configuration->getSamplingSignalRatio(),
-                 configuration->getJitterModulationIndex());
-    }
-    else if (configuration->getCalculationType() == 1)
-    {
-        realSampler = new RealSampler
-                (lfsr, ssignal, jsignal,
-                 configuration->getSamplingSignalRatio(),
-                 configuration->getJitterModulationIndex());
-    }
-    else if (configuration->getCalculationType() == 2)
-    {
-        realSampler = new FSampler
-                (lfsr, ssignal, jsignal,
-                 configuration->getSamplingSignalRatio(),
-                 configuration->getJitterModulationIndex());
-    }
-
+    realSampler = SamplerFactory::Get()->CreateSampler(configuration->getCalculationType(), lfsr, ssignal, jsignal,
+                                                       configuration->getSamplingSignalRatio(),
+                                                       configuration->getJitterModulationIndex());
 
 
 
 
     std::list<unsigned> sampleNoList;
+
     configuration->getStepsCountList(sampleNoList);
 
     OutputType outType = configuration->getOutputType();
+    BinaryCoding binCodeType = configuration->getBinaryCoding();
 
 
     for (auto listIt = sampleNoList.begin(); listIt != sampleNoList.end(); listIt++)
     {
         std::unique_ptr<IWritter> writter
                 (new CSVWritter(outputFileName + "_" + std::to_string(*listIt) + ".csv",
-                 outType));
+                 outType, binCodeType));
 
        std::cout<<std::endl<<std::to_string(*listIt/1000) + "_k: sampling started... ";
 
@@ -124,8 +109,7 @@ int main(int argc, char *argv[])
     std::cout<<"finished."<<std::endl<<std::endl;
 
 
-    delete configuration;
-    delete realSampler;
+    delete configuration;    
 
     return 0;
 }

@@ -24,7 +24,7 @@ public:
     virtual double getSourceSignalPeriod();
     virtual double getSourceSignalMeanValue();
     virtual double getSourceSignalValueRange();
-    virtual int getSourceType();
+    virtual unsigned getSourceType();
 
     virtual double getSamplingSignalRatio();
 
@@ -33,8 +33,12 @@ public:
 
     virtual unsigned getCalculationType();
 
+    virtual unsigned getJitterType();
+
 
     virtual OutputType getOutputType();
+
+    virtual BinaryCoding getBinaryCoding();
 
 private:
 
