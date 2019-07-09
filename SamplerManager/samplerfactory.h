@@ -5,10 +5,11 @@
 #include <map>
 
 typedef std::unique_ptr<ISampler> (*CreateSamplerFn)(const std::unique_ptr<ILinearFeedbackShiftRegister> &lfsr,
-                                     const std::unique_ptr<ISignal> &periodicSignal,
-                                     const std::unique_ptr<ISignal>& timeJitterSignal,
-                                     double periodRatio,
-                                     double modulationIndex);
+                                                     const std::unique_ptr<ISignal> &periodicSignal,
+                                                     const std::unique_ptr<ISignal> &timeJitterSignal,
+                                                     double sourcePeriod,
+                                                     double periodRatio,
+                                                     double modulationIndex);
 
 class SamplerFactory
 {
@@ -30,11 +31,13 @@ public:
     }
 
     void Register(const unsigned samplerNo, CreateSamplerFn samplerCreate);
-    std::unique_ptr<ISampler> CreateSampler(const unsigned samplerNo, const std::unique_ptr<ILinearFeedbackShiftRegister> &lfsr,
-                                                      const std::unique_ptr<ISignal> &periodicSignal,
-                                                      const std::unique_ptr<ISignal>& timeJitterSignal,
-                                                      double periodRatio,
-                                                      double modulationIndex);
+    std::unique_ptr<ISampler> CreateSampler(const unsigned samplerNo,
+                                            const std::unique_ptr<ILinearFeedbackShiftRegister> &lfsr,
+                                            const std::unique_ptr<ISignal> &periodicSignal,
+                                            const std::unique_ptr<ISignal> &timeJitterSignal,
+                                            double sourcePeriod,
+                                            double periodRatio,
+                                            double modulationIndex);
 };
 
 #endif // SAMPLERFACTORY_H

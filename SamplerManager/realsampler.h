@@ -10,6 +10,7 @@ public:
     RealSampler(const std::unique_ptr<ILinearFeedbackShiftRegister> &lfsr,
                 const std::unique_ptr<ISignal> &periodicSignal,
                 const std::unique_ptr<ISignal> &timeJitterSignal,
+                double sourcePeriod,
                 double periodRatio,
                 double modulationIndex);
 
@@ -28,12 +29,13 @@ private:
 public:
 
     static std::unique_ptr<ISampler>  Create(const std::unique_ptr<ILinearFeedbackShiftRegister> &lfsr,
-                              const std::unique_ptr<ISignal> &periodicSignal,
-                              const std::unique_ptr<ISignal> &timeJitterSignal,
-                              double periodRatio,
-                              double modulationIndex)
+                                             const std::unique_ptr<ISignal> &periodicSignal,
+                                             const std::unique_ptr<ISignal> &timeJitterSignal,
+                                             double sourcePeriod,
+                                             double periodRatio,
+                                             double modulationIndex)
     {
-        return std::unique_ptr<ISampler>(new RealSampler(lfsr, periodicSignal, timeJitterSignal, periodRatio, modulationIndex));
+        return std::unique_ptr<ISampler>(new RealSampler(lfsr, periodicSignal, timeJitterSignal, sourcePeriod, periodRatio, modulationIndex));
     }
 
 

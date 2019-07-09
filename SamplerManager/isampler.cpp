@@ -1,17 +1,22 @@
 #include "isampler.h"
 #include <fstream>
+#include <memory>
+#include <cmath>
+#include <baseperiodicsignal.h>
 
 ISampler::ISampler(const std::unique_ptr<ILinearFeedbackShiftRegister>& lfsr,
-                   const std::unique_ptr<ISignal> &periodicSignal,
+                   const std::unique_ptr<ISignal>& periodicSignal,
                    const std::unique_ptr<ISignal>& timeJitterSignal,
+                   double sourcePeriod,
                    double periodRatio,
                    double modulationIndex)
 
-     :m_sourceSignal(periodicSignal),
+    :m_sourceSignal(periodicSignal),
       m_timeJitterSignal(timeJitterSignal),
-       m_lfsr(lfsr),
-       m_modulationIndex(modulationIndex),
-     m_periodRatio(periodRatio)
+      m_lfsr(lfsr),
+      m_modulationIndex(modulationIndex),
+      m_sourcePeriod(sourcePeriod),
+      m_periodRatio(periodRatio)
 {
     initialize();
 }
@@ -23,9 +28,8 @@ ISampler::~ISampler()
 }
 
 void ISampler::initialize()
-{
-    m_include_jitter = static_cast<bool>(m_timeJitterSignal->getPeriod());
-    m_Ts_0 = m_sourceSignal->getPeriod() / m_periodRatio;
+{    
+    m_Ts_0 = m_sourcePeriod / m_periodRatio;
 
     m_help_fstream = new std::fstream;
     m_help_fstream->open("sampleTimes.csv", std::ios::out | std::ios::trunc);
@@ -34,7 +38,7 @@ void ISampler::initialize()
 
 void ISampler::produceSamples(unsigned numberOfSamples, const IWritter &writter)
 {
-    auto maxSampleValue = m_lfsr->getMaxOutput();
+    auto maxSampleValue = static_cast<unsigned>(std::pow(2, m_lfsr->getOutputSize())) ;
 
     printHeaderLine(writter);
 

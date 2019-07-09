@@ -13,6 +13,7 @@ public:
     ISampler(const std::unique_ptr<ILinearFeedbackShiftRegister>& lfsr,
              const std::unique_ptr<ISignal> &periodicSignal,
              const std::unique_ptr<ISignal> &timeJitterSignal,
+             double sourcePeriod,
              double periodRatio,
              double modulationIndex);
 
@@ -23,15 +24,13 @@ protected:
     double m_Ts_0;
     const std::unique_ptr<ISignal>& m_sourceSignal;
     const std::unique_ptr<ISignal>& m_timeJitterSignal;
-    const std::unique_ptr<ILinearFeedbackShiftRegister>& m_lfsr;
-
-    bool m_include_jitter;
+    const std::unique_ptr<ILinearFeedbackShiftRegister>& m_lfsr;    
 
     double m_modulationIndex;
 
     std::fstream* m_help_fstream;
 
-
+    double m_sourcePeriod;
     double m_periodRatio;
 private:
     void initialize();

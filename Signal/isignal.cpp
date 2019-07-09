@@ -8,9 +8,4 @@ ISignal::~ISignal()
 {
 }
 
-double ISignal::getPeriod() const
-{
-    return 0;
-}
-
 

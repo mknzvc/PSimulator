@@ -79,10 +79,9 @@ int main(int argc, char *argv[])
     std::unique_ptr<ISampler> realSampler;
 
     realSampler = SamplerFactory::Get()->CreateSampler(configuration->getCalculationType(), lfsr, ssignal, jsignal,
+                                                       configuration->getSourceSignalPeriod(),
                                                        configuration->getSamplingSignalRatio(),
                                                        configuration->getJitterModulationIndex());
-
-
 
 
     std::list<unsigned> sampleNoList;

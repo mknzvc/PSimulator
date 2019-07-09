@@ -1,17 +1,14 @@
 #ifndef UNIFORMDISTRRANDOMSIGNAL_H
 #define UNIFORMDISTRRANDOMSIGNAL_H
 
-#include "baseperiodicsignal.h"
+#include "isignal.h"
 #include <memory>
 
-class UniformDistrRandomSignal : public BasePeriodicSignal
+class UniformDistrRandomSignal : public ISignal
 {
 public:
     UniformDistrRandomSignal(double valueRange, double period, double meanValue);
 
-
-private:
-    virtual double func(double x) const;
 
 public:
 
@@ -19,6 +16,9 @@ public:
     {
         return std::unique_ptr<ISignal>(new UniformDistrRandomSignal(valueRange, period, meanValue));
     }
+
+public:
+    virtual double value(double time) const;
 };
 
 #endif // UNIFORMDISTRRANDOMSIGNAL_H

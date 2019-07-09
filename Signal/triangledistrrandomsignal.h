@@ -1,17 +1,14 @@
 #ifndef RANDOMSIGNAL_H
 #define RANDOMSIGNAL_H
 
-#include "baseperiodicsignal.h"
+#include "isignal.h"
 #include <memory>
 
-class TriangleDistrRandomSignal : public BasePeriodicSignal
+class TriangleDistrRandomSignal : public ISignal
 {
 public:
     TriangleDistrRandomSignal(double valueRange, double period, double meanValue);
 
-
-private:
-    virtual double func(double x) const;
 
 public:
 
@@ -20,6 +17,9 @@ public:
         return std::unique_ptr<ISignal>(new TriangleDistrRandomSignal(valueRange, period, meanValue));
     }
 
+
+public:
+    virtual double value(double time) const;
 };
 
 #endif // RANDOMSIGNAL_H

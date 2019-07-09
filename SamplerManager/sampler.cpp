@@ -1,10 +1,11 @@
 #include "sampler.h"
 
 Sampler::Sampler(const std::unique_ptr<ILinearFeedbackShiftRegister> &lfsr,
-                               const std::unique_ptr<ISignal> &periodicSignal,
-                               const std::unique_ptr<ISignal> &timeJitterSignal,
-                               double periodRatio, double modulationIndex)
-    :ISampler(lfsr, periodicSignal, timeJitterSignal, periodRatio, modulationIndex)
+                 const std::unique_ptr<ISignal> &periodicSignal,
+                 const std::unique_ptr<ISignal> &timeJitterSignal,
+                 double sourcePeriod,
+                 double periodRatio, double modulationIndex)
+    :ISampler(lfsr, periodicSignal, timeJitterSignal, sourcePeriod, periodRatio, modulationIndex)
 
 {
     initialize();
@@ -19,15 +20,10 @@ void Sampler::initialize()
 }
 
 void Sampler::incrementDiscreteTime()
-{
-    if(m_include_jitter)
-    {
-        m_t += m_Ts_0 * (1 + m_modulationIndex * m_timeJitterSignal->value(m_t));
-    }
-    else
-    {
-        m_t += m_Ts_0;
-    }
+{    
+    m_t += m_Ts_0 * (1 + m_modulationIndex * m_timeJitterSignal->value(m_t));
+
+    m_t += m_Ts_0;
 
     *m_help_fstream<<std::to_string(m_t)<<std::endl;
 }
