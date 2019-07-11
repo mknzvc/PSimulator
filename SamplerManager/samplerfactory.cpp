@@ -1,13 +1,11 @@
 #include "samplerfactory.h"
-#include "realsampler.h"
-#include "fsampler.h"
-#include "sampler.h"
+#include "t_sampler.h"
+#include "f_sampler.h"
 
 SamplerFactory::SamplerFactory()
 {
-    Register(0, &Sampler::Create);
-    Register(1, &RealSampler::Create);
-    Register(2, &FSampler::Create);
+    Register(0, &SamplerTMod::Create);
+    Register(1, &SamplerFMod::Create);
 }
 
 void SamplerFactory::Register(const unsigned int samplerNo, CreateSamplerFn samplerCreate)

@@ -26,16 +26,15 @@ SOURCES += \
     Logger/iwritter.cpp \
     Signal/baseperiodicsignal.cpp \
     Test/sawsignaltest.cpp \
-    SamplerManager/realsampler.cpp \
     Signal/trianglesignal.cpp \
-    SamplerManager/fsampler.cpp \
     SamplerManager/samplerfactory.cpp \
-    SamplerManager/sampler.cpp \
     SamplerManager/isampler.cpp \
     Signal/uniformdistrrandomsignal.cpp \
     Signal/triangledistrrandomsignal.cpp \
     Signal/signalfactory.cpp \
-    Signal/isignal.cpp
+    Signal/isignal.cpp \
+    SamplerManager/f_sampler.cpp \
+    SamplerManager/t_sampler.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -56,16 +55,16 @@ HEADERS += \
     Logger/csvwritter.h \
     Signal/baseperiodicsignal.h \
     Test/sawsignaltest.h \
-    SamplerManager/realsampler.h \
     Signal/trianglesignal.h \
     Signal/isignal.h \
-    SamplerManager/fsampler.h \
     SamplerManager/samplerfactory.h \
     SamplerManager/sampler.h \
     SamplerManager/isampler.h \
     Signal/uniformdistrrandomsignal.h \
     Signal/triangledistrrandomsignal.h \
-    Signal/signalfactory.h
+    Signal/signalfactory.h \
+    SamplerManager/t_sampler.h \
+    SamplerManager/f_sampler.h
 
 test{
     message(Configuring test build...)
